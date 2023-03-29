@@ -1,0 +1,24 @@
+.wrapper {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  .spinner {
+    display: block;
+    // width: 200px;
+    animation: spinner 1s infinite linear;
+    font-size: 200px;
+    color: var(--primary-color);
+  }
+  &.small {
+    .spinner {
+      font-size: 100px;
+    }
+  }
+}
+@keyframes spinner {
+  to {
+    transform: rotate(360deg);
+  }
+}

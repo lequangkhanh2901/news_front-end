@@ -1,0 +1,65 @@
+.wrapper {
+  font-size: 1.6rem;
+  .title {
+    color: var(--primary-color);
+    margin: 20px;
+  }
+  & > div {
+    label {
+      display: inline-block;
+    }
+    input {
+      display: inline-block;
+      margin: 0 10px;
+    }
+  }
+  .input-name {
+    border: 1px solid #ddd;
+    font-size: 1.6rem;
+    padding: 5px 10px;
+    width: 300px;
+    &:hover {
+      border-color: #aaa;
+    }
+    &:focus {
+      border-color: var(--primary-color);
+    }
+  }
+  .category-list {
+    margin: 20px 0;
+    .title-curent-category {
+      color: var(--primary-color);
+    }
+  }
+  .category-trash {
+    display: inline-block;
+    margin-top: 50px;
+    color: var(--primary-color);
+    padding: 10px 20px;
+    border: 1px solid currentColor;
+    transition-duration: 0.3s;
+    &:hover {
+      background-color: var(--primary-color);
+      color: #fff;
+    }
+  }
+}
+.toast {
+  font-size: 1.6rem;
+}
+// modal
+.input-edit-category {
+  font-size: 1.6rem;
+  border-bottom: 1px solid var(--primary-color);
+  padding: 5px 10px;
+  width: 100%;
+  display: inline-block;
+}
+
+.confirm-mes {
+  .category-name {
+    font-weight: 700;
+    font-size: 1.8rem;
+    color: red;
+  }
+}

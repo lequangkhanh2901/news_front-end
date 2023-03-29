@@ -1,0 +1,98 @@
+.wrapper {
+  display: flex;
+  width: 100%;
+  font-size: 1.6rem;
+  .content {
+    width: 75%;
+    flex-shrink: 0;
+    padding-right: 10px;
+    img {
+      max-width: 100%;
+    }
+    .title {
+      color: var(--primary-color);
+      padding: 10px 0;
+    }
+    .category {
+      color: var(--primary-color);
+      display: inline-block;
+      padding: 20px 0;
+      transition-duration: 0.3s;
+      &:hover {
+        text-decoration: underline;
+      }
+
+      .link-category-icon {
+        padding-right: 5px;
+      }
+    }
+    .avartar {
+      width: 80%;
+      display: block;
+      margin-bottom: 10px;
+    }
+    .post-content {
+      font-size: 1.6rem;
+      line-height: 3rem;
+    }
+    .info {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 20px;
+      padding-right: 20px;
+      padding-bottom: 5px;
+      color: #333;
+      font-size: 1.4rem;
+      margin-top: 15px;
+      border-bottom: 1px solid #eee;
+      > div {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+      }
+    }
+    .action {
+      display: flex;
+      width: 100%;
+      align-items: center;
+      gap: 10px;
+
+      .like-post {
+        display: flex;
+        align-items: center;
+      }
+    }
+  }
+}
+.modal {
+  .title {
+    text-align: center;
+    color: var(--primary-color);
+  }
+  .modal-trick {
+    padding-top: 20px;
+    color: rgb(123, 80, 0);
+    span {
+      color: red;
+      font-size: 1.4rem;
+    }
+  }
+  .imput-reason {
+    width: 450px;
+    display: block;
+    font-size: 1.6rem;
+    padding: 10px;
+    border: 1px solid transparent;
+    border-bottom-color: #aaa;
+    transition-duration: 0.3s;
+    margin: 10px 0;
+    &:hover {
+      border-bottom-color: var(--primary-color);
+    }
+    &:focus {
+      border-color: var(--primary-color);
+      border-radius: 5px;
+    }
+  }
+}

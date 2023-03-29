@@ -1,0 +1,22 @@
+.header {
+  // background-color: #78b43d;
+  // border: 1px solid red;
+  padding: 5px 0;
+
+  .inner {
+    max-width: var(--max-width);
+    padding: 0 20px;
+    margin: auto;
+    .main {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      .logo {
+        img {
+          width: 125px;
+        }
+      }
+    }
+  }
+}

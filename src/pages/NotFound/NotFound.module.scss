@@ -1,0 +1,26 @@
+.wrapper {
+  font-size: 1.6rem;
+  .code {
+    text-align: center;
+    font-size: 100px;
+    color: red;
+  }
+  .message {
+    font-size: 3rem;
+    text-align: center;
+  }
+  div {
+    display: flex;
+    justify-content: center;
+    .link-home {
+      padding: 10px 20px;
+      // width: 100px;
+      display: inline-block;
+      margin: 20px;
+      border-radius: 5px;
+      font-size: 2.5rem;
+      background-color: var(--primary-color);
+      color: #fff;
+    }
+  }
+}

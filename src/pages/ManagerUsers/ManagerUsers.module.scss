@@ -1,0 +1,13 @@
+.wrapper {
+  font-size: 1.6rem;
+}
+
+.modal-content {
+  .title {
+    text-align: center;
+    color: var(--primary-color);
+    &.ban {
+      color: red;
+    }
+  }
+}

@@ -1,0 +1,22 @@
+.wrapper {
+  flex-grow: 1;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  .input-comment {
+    display: block;
+    flex-grow: 1;
+    font-size: 1.6rem;
+    padding: 10px;
+    border: 1px solid transparent;
+    border-bottom-color: #aaa;
+    transition-duration: 0.3s;
+    &:hover {
+      border-bottom-color: var(--primary-color);
+    }
+    &:focus {
+      border-color: var(--primary-color);
+      border-radius: 5px;
+    }
+  }
+}

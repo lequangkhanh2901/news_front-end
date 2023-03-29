@@ -1,0 +1,37 @@
+.wrapper {
+  display: flex;
+  border: 1px solid #eee;
+
+  &:focus-within {
+    border-color: var(--primary-color);
+  }
+  &:hover {
+    border-color: var(--primary-color);
+  }
+
+  .search-input {
+    padding: 5px 10px;
+    width: 30vw;
+    font-size: 1.4rem;
+    color: var(--primary-color);
+  }
+  .search-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    aspect-ratio: 1;
+    cursor: pointer;
+
+    &:hover {
+      background-color: #78b43d33;
+      color: var(--primary-color);
+    }
+
+    .search-icon {
+      transition-duration: 0.2s;
+      font-weight: 200;
+      font-size: 1.6rem;
+    }
+  }
+}

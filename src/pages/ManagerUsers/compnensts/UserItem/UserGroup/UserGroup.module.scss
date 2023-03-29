@@ -1,0 +1,33 @@
+.wrapper {
+  .type {
+    color: var(--primary-color);
+    border-bottom: 1px solid var(--primary-color);
+    padding: 5px;
+    margin-top: 20px;
+  }
+  .users {
+    width: 100%;
+    thead tr {
+      padding: 5px 0;
+      line-height: 2.5rem;
+      color: #fff;
+      background-color: var(--primary-color);
+    }
+    tbody td {
+      overflow: hidden;
+    }
+
+    .id {
+      width: 80px;
+    }
+    .name {
+      width: 200px;
+    }
+    .email {
+      width: 40%;
+    }
+    .action {
+      width: 10%;
+    }
+  }
+}

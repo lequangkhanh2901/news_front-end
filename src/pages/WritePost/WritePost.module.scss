@@ -1,0 +1,59 @@
+.wrapper {
+  font-size: 1.6rem;
+  .editor {
+    height: 200px;
+  }
+  div {
+    margin: 5px 0;
+
+    label {
+      display: inline-block;
+    }
+    input {
+      display: inline-block;
+      font-size: 1.6rem;
+      margin-left: 5px;
+      border-bottom: 1px solid #eee;
+      width: 80%;
+      &:focus {
+        border-color: #999;
+      }
+      &[type='file'] {
+        display: none;
+      }
+    }
+    .image-preview {
+      margin: 10px 0;
+      display: none;
+      width: 200px;
+      &.display {
+        display: block;
+      }
+    }
+
+    .category-select {
+      display: inline-block;
+      margin-left: 5px;
+      outline: none;
+      font-size: 1.6rem;
+    }
+    .btn-submit {
+      padding: 10px 20px;
+      cursor: pointer;
+      border-radius: 5px;
+      font-size: 2rem;
+      color: white;
+      background-color: var(--primary-color);
+      transition-duration: 0.3s;
+      &:hover {
+        background-color: aqua;
+      }
+    }
+    .warn {
+      color: red;
+      display: inline-block;
+      font-size: 1.2rem;
+      margin-left: 10px;
+    }
+  }
+}

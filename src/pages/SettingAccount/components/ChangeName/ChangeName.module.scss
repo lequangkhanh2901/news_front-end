@@ -1,0 +1,24 @@
+.wrapper {
+  .title {
+    color: var(--primary-color);
+    text-align: center;
+    margin: 20px 0;
+  }
+  input {
+    font-size: 1.8rem;
+    border: 1px solid transparent;
+    border-bottom: 1px solid var(--primary-color);
+    display: block;
+    width: 100%;
+    padding: 5px 10px;
+    transition-duration: 0.3s;
+    &:valid {
+      color: var(--primary-color);
+    }
+    &:focus,
+    &:not(:placeholder-shown) {
+      border-color: var(--primary-color);
+      border-radius: 5px;
+    }
+  }
+}
