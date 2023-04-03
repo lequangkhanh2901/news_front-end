@@ -1,5 +1,5 @@
 import {
-  faAddressCard,
+  // faAddressCard,
   faArrowRightFromBracket,
   faGear,
   faRightToBracket,
@@ -30,12 +30,12 @@ function Menu() {
   useEffect(() => {
     if (user.id) {
       const userMenuList = [
-        {
-          type: 'link',
-          text: 'Trang cá nhân',
-          icon: faAddressCard,
-          to: routers.profile,
-        },
+        // {
+        //   type: 'link',
+        //   text: 'Trang cá nhân',
+        //   icon: faAddressCard,
+        //   to: routers.profile,
+        // },
         {
           type: 'button',
           text: 'Đăng xuất',

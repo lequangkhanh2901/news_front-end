@@ -1,9 +1,11 @@
 import { faBan, faUnlock } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import classNames from 'classnames/bind'
-import Button from '../../../../components/Button'
+import { Link, generatePath } from 'react-router-dom'
 
+import Button from '../../../../components/Button'
 import styles from './UserItem.module.scss'
+import routers from '../../../../configs/baseRoutes'
 
 const cx = classNames.bind(styles)
 
@@ -15,7 +17,11 @@ function UserItem({ data, onActionUserClick }) {
   return (
     <tr className={cx('wrapper')}>
       <td>{data.id}</td>
-      <td>{data.name}</td>
+      <td>
+        <Link to={generatePath(routers.user, { id: data.id })}>
+          {data.name}
+        </Link>
+      </td>
       <td>{data.email}</td>
       <td>{timeCreated}</td>
       <td>

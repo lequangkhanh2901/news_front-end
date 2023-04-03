@@ -4,6 +4,8 @@ const initState = {
   error: '',
   name: '',
   isLoadingModal: false,
+  oldPass: '',
+  newPass: '',
 }
 
 const reducer = (state, action) => {
@@ -35,6 +37,16 @@ const reducer = (state, action) => {
       return {
         ...state,
         isLoadingModal: action.payload,
+      }
+    case 'UPDATE_OLD_PASS':
+      return {
+        ...state,
+        oldPass: action.payload,
+      }
+    case 'UPDATE_NEW_PASS':
+      return {
+        ...state,
+        newPass: action.payload,
       }
     default:
       return state

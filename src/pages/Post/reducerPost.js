@@ -30,6 +30,11 @@ const reducer = (state, action) => {
         ...state,
         reason: action.payload,
       }
+    case 'UPDATE_ID_COMMENT':
+      return {
+        ...state,
+        idComment: action.payload,
+      }
     default:
       return state
   }

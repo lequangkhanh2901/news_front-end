@@ -1,0 +1,35 @@
+.wrapper {
+  display: flex;
+  .content {
+    width: 75%;
+
+    .title {
+      color: #222;
+      margin: 20px;
+      word-wrap: wrap;
+      .slug {
+        color: var(--primary-color);
+      }
+    }
+
+    .posts {
+      .post {
+        display: flex;
+        gap: 10px;
+        img {
+          width: 200px;
+          aspect-ratio: 4/3;
+        }
+        .info {
+          .post-title {
+            transition-duration: 0.3s;
+            color: #222;
+            &:hover {
+              color: var(--primary-color);
+            }
+          }
+        }
+      }
+    }
+  }
+}

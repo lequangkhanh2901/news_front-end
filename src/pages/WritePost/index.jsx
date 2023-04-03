@@ -64,36 +64,17 @@ function WritePost() {
     }
     const postData = async () => {
       const formData = new FormData()
-      // formData.append('id_category', selectCategoryValue)
-      // formData.append('title', titleRef.current.value)
       formData.append('file', file)
       formData.append('title', titleRef.current.value)
       formData.append('sort_description', decrRef.current.value)
       formData.append('content', ckContent)
       formData.append('id_category', selectCategoryValue)
       const resp = await axiosCt.postFile('/avartar-post', formData)
-      // for (let [key, value] of formData.entries()) {
-      // }
       if (resp === 'fail') {
         updateError('Lỗi. Kiểm tra lại kích thước ảnh đại diện!')
         return
       }
-      // const response = await axiosCt.post('/post',{
-
-      // })
       return
-      // const res = await axiosCt.post(
-      //   '/post',
-      //   // formData
-      //   {
-      //     id_category: selectCategoryValue,
-      //     title: titleRef.current.value,
-      //     sort_description: decrRef.current.value,
-      //     content: ckContent,
-      //     // file: file,
-      //   }
-      // )
-      // console.log(res)
     }
     postData()
   }

@@ -43,6 +43,24 @@ function SettingBar() {
         },
       ]
     }
+    if (user.role === 1) {
+      listNavArr = [
+        ...listNavArr,
+        {
+          to: routers.managerPosts,
+          icon: faClone,
+        },
+      ]
+    }
+    if (user.role === 2) {
+      listNavArr = [
+        ...listNavArr,
+        {
+          to: routers.managerPosts,
+          icon: faClone,
+        },
+      ]
+    }
     setListNav(() => listNavArr)
   }, [user.id])
 

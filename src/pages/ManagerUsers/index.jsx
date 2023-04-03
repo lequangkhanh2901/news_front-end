@@ -6,6 +6,7 @@ import UserGroup from './compnensts/UserItem/UserGroup'
 
 import styles from './ManagerUsers.module.scss'
 import Modal from '../../components/Modal'
+import { useSelector } from 'react-redux'
 
 const cx = classNames.bind(styles)
 
@@ -15,7 +16,7 @@ function ManagerUsers() {
   const [userAction, setUserAction] = useState({})
   const [isLoading, setIsLoading] = useState(false)
   const [rerender, setRerender] = useState({})
-
+  const user = useSelector((state) => state.user)
   useEffect(() => {
     const controller = new AbortController()
     const fetchUser = async () => {
@@ -45,7 +46,7 @@ function ManagerUsers() {
     return () => {
       controller.abort()
     }
-  }, [rerender])
+  }, [rerender, user.id])
   useEffect(() => {
     if (modalAction === '') {
       setUserAction({})
@@ -62,9 +63,6 @@ function ManagerUsers() {
   const handleCancel = () => {
     setModalAction('')
   }
-  const fetchUpdate = async (type, id) => {
-    const response = await axiosCt.patch('/user/force', { type, id })
-  }
   const handleOk = async () => {
     setIsLoading(true)
     const response = await axiosCt.patch('/user/force', {
@@ -72,7 +70,6 @@ function ManagerUsers() {
       id: userAction.id,
     })
     setIsLoading(false)
-    console.log(response)
     if (response.code === 201) {
       setRerender({})
       setModalAction('')

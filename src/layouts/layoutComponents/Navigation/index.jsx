@@ -1,5 +1,6 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useContext } from 'react'
 import classNames from 'classnames/bind'
+import { SocketContext } from '../../../configs/context/socket'
 
 import styles from './Navigation.module.scss'
 import { NavLink, generatePath } from 'react-router-dom'
@@ -11,6 +12,15 @@ const cx = classNames.bind(styles)
 
 function Navigation() {
   const [categories, setCategories] = useState([])
+  const [rerender, setRerender] = useState([])
+  const socket = useContext(SocketContext)
+
+  useEffect(() => {
+    socket.on('UPDATE_CATEGORY', () => {
+      setRerender([])
+    })
+  }, [])
+
   useEffect(() => {
     const getListCategory = async () => {
       const response = await axiosCt.get('/category')
@@ -19,7 +29,7 @@ function Navigation() {
       }
     }
     getListCategory()
-  }, [])
+  }, [rerender])
 
   return (
     <div className={cx('wrapper')}>

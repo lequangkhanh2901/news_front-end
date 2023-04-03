@@ -1,10 +1,9 @@
 import axios from 'axios'
 import { getCookieToken } from '../optionalFunction'
 
-const token = getCookieToken()
-
 const axiosCt = {
   async get(link) {
+    const token = getCookieToken()
     try {
       const res = await axios.get(import.meta.env.VITE_API_URL + link, {
         headers: {
@@ -17,6 +16,7 @@ const axiosCt = {
     }
   },
   async post(link, data) {
+    const token = getCookieToken()
     try {
       const res = await axios.post(import.meta.env.VITE_API_URL + link, data, {
         headers: {
@@ -29,6 +29,7 @@ const axiosCt = {
     }
   },
   async postFile(link, data) {
+    const token = getCookieToken()
     try {
       const res = await axios.post(import.meta.env.VITE_API_URL + link, data, {
         headers: {
@@ -42,6 +43,7 @@ const axiosCt = {
     }
   },
   async patch(link, data) {
+    const token = getCookieToken()
     try {
       const res = await axios.patch(import.meta.env.VITE_API_URL + link, data, {
         headers: {
@@ -54,6 +56,7 @@ const axiosCt = {
     }
   },
   async delete(link, data) {
+    const token = getCookieToken()
     try {
       const res = await axios.delete(import.meta.env.VITE_API_URL + link, {
         headers: {

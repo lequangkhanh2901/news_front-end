@@ -10,7 +10,7 @@ function Aside() {
   return (
     <div className={cx('wrapper')}>
       <NewHot type={type.new} />
-      <NewHot type={type.hot} />
+      {/* <NewHot type={type.hot} /> */}
     </div>
   )
 }

@@ -1,7 +1,7 @@
 import {
   faCommentAlt,
-  faPlane,
   faThumbsUp,
+  faTrash,
   faWarning,
   faXmark,
 } from '@fortawesome/free-solid-svg-icons'
@@ -14,10 +14,9 @@ import Button from '../../../../components/Button'
 import { getTimeString } from '../../../../optionalFunction'
 import styles from './CommentItem.module.scss'
 
-confirm
 const cx = classNames.bind(styles)
 
-function CommentItem({ comment, onReply, onLikeComment }) {
+function CommentItem({ comment, onReply, onLikeComment, onReport, onDelete }) {
   const [isRepFormShow, setIsRepFormShow] = useState(false)
   const [reply, setReply] = useState('')
   const user = useSelector((state) => state.user)
@@ -52,9 +51,25 @@ function CommentItem({ comment, onReply, onLikeComment }) {
             <FontAwesomeIcon icon={faThumbsUp} />
           </Button>
           <span>{comment.comment.numlike}</span>
-          <Button warring size='small'>
-            <FontAwesomeIcon icon={faWarning} />
-          </Button>
+          {user.id === comment.comment.id_user ? (
+            <Button
+              danger
+              size='small'
+              onClick={() =>
+                onDelete(comment.comment.id, comment.comment.id_user)
+              }
+            >
+              <FontAwesomeIcon icon={faTrash} />
+            </Button>
+          ) : (
+            <Button
+              warring
+              size='small'
+              onClick={() => onReport(comment.comment.id)}
+            >
+              <FontAwesomeIcon icon={faWarning} />
+            </Button>
+          )}
           <div className={cx('reply')}>
             {isRepFormShow ? (
               <div className={cx('rep-form')}>
@@ -122,9 +137,23 @@ function CommentItem({ comment, onReply, onLikeComment }) {
                     <FontAwesomeIcon icon={faThumbsUp} />
                   </Button>
                   <span>{item.numlike}</span>
-                  <Button warring size='small'>
-                    <FontAwesomeIcon icon={faWarning} />
-                  </Button>
+                  {user.id === item.id_user ? (
+                    <Button
+                      danger
+                      size='small'
+                      onClick={() => onDelete(item.id, item.id_user)}
+                    >
+                      <FontAwesomeIcon icon={faTrash} />
+                    </Button>
+                  ) : (
+                    <Button
+                      warring
+                      size='small'
+                      onClick={() => onReport(item.id)}
+                    >
+                      <FontAwesomeIcon icon={faWarning} />
+                    </Button>
+                  )}
                 </div>
               </div>
             </div>

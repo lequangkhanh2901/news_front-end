@@ -17,16 +17,35 @@ function Pagination({ data, onClick, currentPage }) {
     setPaginationArr(tmpArr)
   }, [data])
 
+  let prevDots = false
+  let nextDots = false
+  const numPageButon = 3
   return (
     <div className={cx('wrapper')}>
-      {paginationArr.map((item) => (
-        <PaginationItem
-          onClick={onClick}
-          key={item}
-          data={item}
-          active={item === currentPage}
-        />
-      ))}
+      {paginationArr.map((item) => {
+        if (item < currentPage - numPageButon) {
+          if (!prevDots) {
+            prevDots = true
+            return <PaginationItem data='<<' onClick={onClick} key={'<<'} />
+          }
+          return null
+        }
+        if (item > currentPage + numPageButon) {
+          if (!nextDots) {
+            nextDots = true
+            return <PaginationItem data='>>' onClick={onClick} key={'>>'} />
+          }
+          return null
+        }
+        return (
+          <PaginationItem
+            onClick={onClick}
+            key={item}
+            data={item}
+            active={item === currentPage}
+          />
+        )
+      })}
     </div>
   )
 }

@@ -41,48 +41,6 @@
         top: 50%;
         right: 10px;
         translate: 0 -50%;
-        height: calc(100% - 2px);
-        aspect-ratio: 1;
-        cursor: pointer;
-        color: var(--primary-color);
-        transition-duration: 0.3s;
-        &:hover {
-          background-color: var(--primary-color);
-          color: #fff;
-          border-radius: 5px;
-        }
-      }
-    }
-  }
-  .posts {
-    margin-top: 30px;
-    .posts-table {
-      width: 100%;
-      .head-table {
-        background-color: var(--primary-color);
-        line-height: 3rem;
-        color: #fff;
-      }
-      .post-id {
-        width: 100px;
-      }
-      .post-title {
-      }
-      .post-created {
-      }
-      .post-author {
-      }
-      .post-censor {
-      }
-      .post-censored {
-      }
-      .post-action {
-      }
-    }
-    .post {
-      line-height: 2.5rem;
-      &:hover {
-        background-color: #ddd;
       }
     }
   }

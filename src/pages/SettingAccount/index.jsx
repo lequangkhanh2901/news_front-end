@@ -3,6 +3,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import classNames from 'classnames/bind'
 import { useReducer } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import { toast, ToastContainer } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 import { reducer, initState } from './reducerSettingAccount'
 import Image from '../../components/Image'
@@ -13,6 +15,7 @@ import axiosCT from '../../configs/axiosCT'
 import { update } from '../../redux/userSlice'
 import ChangeName from './components/ChangeName'
 import Button from '../../components/Button'
+import ChangePassword from './components/ChangePassword'
 
 const cx = classNames.bind(styles)
 
@@ -99,6 +102,57 @@ function SettingAccount() {
         }
 
         break
+      case 'CHANGE_PASSWORD':
+        if (state.oldPass.length < 6 || state.newPass.length < 6) {
+          toast.warning('Mật khẩu ít nhất 6 ký tự!')
+          break
+        }
+        if (state.oldPass === state.newPass) {
+          toast.warning('Mật khẩu mới giống mật khẩu cũ!')
+          break
+        }
+        const fetchChangePass = async () => {
+          const response = await axiosCT.patch('/user/change-password', {
+            oldPassword: state.oldPass,
+            newPassword: state.newPass,
+          })
+          if (response === 'fail') {
+            toast.error('Lỗi!')
+          } else {
+            switch (response.code) {
+              case 200:
+                toast.success('Đổi mật khẩu thành công!')
+                dispatch({
+                  type: 'UPDATE_MODAL_ACTION',
+                  payload: '',
+                })
+
+                break
+              case 400:
+                toast.warning('Mật khẩu cũ không đúng!')
+
+                break
+              case 401:
+                toast.warning('Dữ liệu không hợp lệ!')
+
+                break
+              case 404:
+                toast.error('Người dùng không tồn tại!')
+                dispatch({
+                  type: 'UPDATE_MODAL_ACTION',
+                  payload: '',
+                })
+
+                break
+              default:
+                toast.error('Lỗi!')
+                break
+            }
+          }
+        }
+
+        fetchChangePass()
+        break
       default:
         break
     }
@@ -124,13 +178,37 @@ function SettingAccount() {
         return (
           <ChangeName onChange={handleChangeNameInput} value={state.name} />
         )
+      case 'CHANGE_PASSWORD':
+        return (
+          <ChangePassword
+            onChangeOldPass={handleChangeOldPass}
+            oldPass={state.oldPass}
+            newPass={state.newPass}
+            onChangeNewPass={handleChangeNewPass}
+          />
+        )
       default:
         return null
     }
   }
 
+  const handleChangeOldPass = (e) => {
+    if (e.target.value.startsWith(' ') || e.target.value.length > 30) {
+      return
+    }
+    dispatch({ type: 'UPDATE_OLD_PASS', payload: e.target.value.trim() })
+  }
+
+  const handleChangeNewPass = (e) => {
+    if (e.target.value.startsWith(' ') || e.target.value.length > 30) {
+      return
+    }
+    dispatch({ type: 'UPDATE_NEW_PASS', payload: e.target.value.trim() })
+  }
+
   return (
     <>
+      <ToastContainer />
       {state.modalAction ? (
         <Modal
           onCancel={handleCancelModal}
@@ -180,6 +258,20 @@ function SettingAccount() {
                   size='small-medium'
                 >
                   <FontAwesomeIcon icon={faPen} />
+                </Button>
+              </div>
+              <div className={cx('password')}>
+                <Button
+                  size='large'
+                  warring
+                  onClick={() =>
+                    dispatch({
+                      type: 'UPDATE_MODAL_ACTION',
+                      payload: 'CHANGE_PASSWORD',
+                    })
+                  }
+                >
+                  Thay đổi mật khẩu
                 </Button>
               </div>
             </div>

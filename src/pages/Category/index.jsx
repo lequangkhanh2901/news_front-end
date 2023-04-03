@@ -41,7 +41,13 @@ function Category() {
     setCurrentPage(1)
   }, [id])
   const handleCLickPagination = (item) => {
-    setCurrentPage(item)
+    if (item === '<<') {
+      setCurrentPage(1)
+    } else if (item === '>>') {
+      setCurrentPage(numPage)
+    } else {
+      setCurrentPage(item)
+    }
     window.scrollTo(0, 0)
   }
   return (

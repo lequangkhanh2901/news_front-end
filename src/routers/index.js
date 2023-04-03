@@ -13,6 +13,11 @@ const Profile = lazy(() => import('../pages/Profile'))
 const SettingAccount = lazy(() => import('../pages/SettingAccount'))
 const ManagerUsers = lazy(() => import('../pages/ManagerUsers'))
 const ManagerPosts = lazy(() => import('../pages/ManagerPosts'))
+const TrashPost = lazy(() => import('../pages/TrashPost'))
+const EditPost = lazy(() => import('../pages/EditPost'))
+const User = lazy(() => import('../pages/User'))
+const Register = lazy(() => import('../pages/Register'))
+const Search = lazy(() => import('../pages/Search'))
 
 const publicRoutes = [
   {
@@ -26,6 +31,11 @@ const publicRoutes = [
   {
     path: routers.post,
     component: Post,
+  },
+  { path: routers.userRegister, component: Register },
+  {
+    path: routers.search,
+    component: Search,
   },
 ]
 
@@ -51,11 +61,30 @@ const privateRoutes = {
       layout: SettingLayout,
       component: ManagerPosts,
     },
+    {
+      path: routers.trashPost,
+      layout: SettingLayout,
+      component: TrashPost,
+    },
+    {
+      path: routers.user,
+      component: User,
+      layout: SettingLayout,
+    },
   ],
   writerRoutes: [
     {
       path: routers.writePost,
       component: WritePost,
+    },
+    {
+      path: routers.managerPosts,
+      layout: SettingLayout,
+      component: ManagerPosts,
+    },
+    {
+      path: routers.editPost,
+      component: EditPost,
     },
   ],
   censorRoutes: [],
@@ -68,6 +97,11 @@ const privateRoutes = {
       path: routers.settingAccount,
       component: SettingAccount,
       layout: SettingLayout,
+    },
+    {
+      path: routers.managerPosts,
+      layout: SettingLayout,
+      component: ManagerPosts,
     },
   ],
 }

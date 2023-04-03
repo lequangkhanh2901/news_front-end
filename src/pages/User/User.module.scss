@@ -1,0 +1,67 @@
+.wrapper {
+  .title {
+    color: var(--primary-color);
+    text-align: center;
+  }
+  .content {
+    display: flex;
+    gap: 20px;
+    .avartar {
+      .avartar-img {
+        width: 250px;
+        aspect-ratio: 1;
+        object-fit: cover;
+        overflow: hidden;
+        border-radius: 50%;
+      }
+    }
+    .info {
+      flex-grow: 1;
+      .name {
+        font-size: 2rem;
+        color: var(--primary-color);
+      }
+      div {
+        padding: 10px;
+      }
+      .created_at,
+      .updated_at {
+        font-size: 1.8rem;
+        span {
+          color: var(--primary-color);
+          font-size: 1.6rem;
+        }
+      }
+
+      .role {
+        padding: 20px;
+        display: block;
+
+        .role-title {
+          font-size: 2rem;
+          color: var(--primary-color);
+          margin: 5px;
+          display: inline-block;
+        }
+
+        .change-role {
+          display: flex;
+          align-items: center;
+          gap: 20px;
+          select {
+            font-size: 1.6rem;
+            padding: 10px 20px;
+            // display: inline-block;
+            margin: 10px;
+            outline: none;
+          }
+
+          .button-change-role {
+            width: 40px;
+            height: 40px;
+          }
+        }
+      }
+    }
+  }
+}

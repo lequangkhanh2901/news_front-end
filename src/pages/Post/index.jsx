@@ -9,7 +9,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import classNames from 'classnames/bind'
-import { useCallback, useEffect, useReducer, useState } from 'react'
+import { useCallback, useContext, useEffect, useReducer, useState } from 'react'
 import { generatePath, Link, useParams } from 'react-router-dom'
 import 'react-toastify/dist/ReactToastify.css'
 import { useSelector } from 'react-redux'
@@ -25,6 +25,8 @@ import AddComment from './component/AddComment'
 import Comments from './component/Comments'
 import { initState, reducer } from './reducerPost'
 import Modal from '../../components/Modal'
+import { SocketContext } from '../../configs/context/socket'
+// import socket from '../../configs/socket'
 
 const cx = classNames.bind(styles)
 
@@ -32,8 +34,23 @@ function Post() {
   const { id } = useParams()
   const [rerender, setRerender] = useState([])
   const [state, dispatch] = useReducer(reducer, initState)
+  const [rerenderComment, setRerenderComment] = useState([])
+  const socket = useContext(SocketContext)
 
   const user = useSelector((state) => state.user)
+
+  useEffect(() => {
+    socket.on(id, (data) => {
+      switch (data.type) {
+        case 'UPDATE_COMMENT':
+          setRerenderComment([])
+          break
+
+        default:
+          break
+      }
+    })
+  }, [])
 
   useEffect(() => {
     const controller = new AbortController()
@@ -93,19 +110,22 @@ function Post() {
     return () => {
       controller.abort()
     }
-  }, [rerender, id])
+  }, [rerender, id, rerenderComment])
 
-  const handleReply = useCallback(async (rep) => {
-    const { reply, idComment } = rep
-    const response = await axiosCt.post('/comment', {
-      idPost: id,
-      comment: reply,
-      idParentComment: idComment,
-    })
-    if (response !== 'fail' && response.code === 201) {
-      setRerender([])
-    }
-  }, [])
+  const handleReply = useCallback(
+    async (rep) => {
+      const { reply, idComment } = rep
+      const response = await axiosCt.post('/comment', {
+        idPost: id,
+        comment: reply,
+        idParentComment: idComment,
+      })
+      if (response !== 'fail' && response.code === 201) {
+        setRerender([])
+      }
+    },
+    [id]
+  )
 
   const createdDate = getTimeString(state.post.created_at)
   let updatedTime
@@ -163,7 +183,10 @@ function Post() {
         toast.warning('Bạn cần đăng nhập!')
         return
       }
-      const response = await axiosCt.post('/comment/like', { id: idComment })
+      const response = await axiosCt.post('/comment/like', {
+        id: idComment,
+        idPost: id,
+      })
       if (response !== 'fail') {
         if (type === 'PARENT') {
           for (let item of state.comments) {
@@ -211,7 +234,7 @@ function Post() {
         }
       }
     },
-    [state]
+    [state, user.id]
   )
 
   const handleReportPost = () => {
@@ -225,11 +248,27 @@ function Post() {
     })
   }
 
+  const handleDeleteComment = async (idComment, idUserComment) => {
+    if (idUserComment !== user.id) {
+      toast.warning('Không thể xóa bình luận của người khác!')
+      return
+    }
+    dispatch({
+      type: 'UPDATE_MODAL_ACTION',
+      payload: 'DELETE_COMMENT',
+    })
+    dispatch({
+      type: 'UPDATE_ID_COMMENT',
+      payload: idComment,
+    })
+  }
+
   const renderModalContent = () => {
     switch (state.modalAction) {
       case 'REPORT_POST':
         return (
           <>
+            <h1 className={cx('title')}>Báo cáo bài viết</h1>
             <p className={cx('modal-trick')}>
               Lý do báo cáo<span>(20-100 ký tự)</span>:{' '}
             </p>
@@ -246,7 +285,28 @@ function Post() {
             />
           </>
         )
-
+      case 'REPORT_COMMENT':
+        return (
+          <>
+            <h1 className={cx('title')}>Báo cáo bình luận</h1>
+            <p className={cx('modal-trick')}>
+              Lý do báo cáo<span>(20-100 ký tự)</span>:{' '}
+            </p>
+            <input
+              className={cx('imput-reason')}
+              spellCheck={false}
+              value={state.reason}
+              onChange={(e) =>
+                dispatch({
+                  type: 'UPDATE_REASON',
+                  payload: e.target.value,
+                })
+              }
+            />
+          </>
+        )
+      case 'DELETE_COMMENT':
+        return <h1 className={cx('title')}>Xóa bình luận?</h1>
       default:
         return null
     }
@@ -260,16 +320,24 @@ function Post() {
   }
 
   const handleOkModal = async () => {
-    if (state.reason.trim() === '') {
-      toast.warning('Lý do trống!')
-      return
-    }
-    if (state.reason.length < 20) {
-      toast.warning('Lý do quá ngắn!')
-      return
-    }
+    // if (state.reason.trim() === '') {
+    //   toast.warning('Lý do trống!')
+    //   return
+    // }
+    // if (state.reason.length < 20) {
+    //   toast.warning('Lý do quá ngắn!')
+    //   return
+    // }
     switch (state.modalAction) {
       case 'REPORT_POST':
+        if (state.reason.trim() === '') {
+          toast.warning('Lý do trống!')
+          return
+        }
+        if (state.reason.length < 20) {
+          toast.warning('Lý do quá ngắn!')
+          return
+        }
         const response = await axiosCt.post('/report/post', {
           id,
           reason: state.reason,
@@ -277,8 +345,16 @@ function Post() {
         if (response !== 'fail') {
           if (response.code === 200) {
             toast.warning('Bạn từng báo cáo bài đăng này!')
+            dispatch({
+              type: 'UPDATE_MODAL_ACTION',
+              payload: '',
+            })
           } else if (response.code === 201) {
             toast.success('Bạn đã báo cáo thành công!')
+            dispatch({
+              type: 'UPDATE_MODAL_ACTION',
+              payload: '',
+            })
           } else {
             toast.error('Lỗi')
           }
@@ -286,23 +362,89 @@ function Post() {
           toast.error('Lỗi')
         }
         break
+      case 'REPORT_COMMENT':
+        if (state.reason.trim() === '') {
+          toast.warning('Lý do trống!')
+          return
+        }
+        if (state.reason.length < 20) {
+          toast.warning('Lý do quá ngắn!')
+          return
+        }
+        const responseCM = await axiosCt.post('/report/comment', {
+          id: state.idComment,
+          reason: state.reason,
+        })
+        if (responseCM === 'fail' || responseCM.code === 500) {
+          toast.error('Lỗi!')
+        } else {
+          if (responseCM.code === 200) {
+            toast.warning('Bạn từng tố cáo bình luận này!')
+          } else if (responseCM.code === 201) {
+            toast.success('Bạn đã báo cáo thành công!')
+          }
+          dispatch({
+            type: 'UPDATE_MODAL_ACTION',
+            payload: '',
+          })
+        }
+        break
+      case 'DELETE_COMMENT':
+        const responseDeleteCM = await axiosCt.delete('/comment', {
+          id: state.idComment,
+          idPost: id,
+        })
+        if (responseDeleteCM === 'fail' || responseDeleteCM.code === 500) {
+          toast.error('Lỗi!')
+        } else {
+          if (responseDeleteCM.code === 202) {
+            toast.success('Đã xóa bình luận!')
+            dispatch({ type: 'UPDATE_MODAL_ACTION', payloadL: '' })
+            setRerender([])
+          }
+        }
 
+        break
       default:
         break
     }
   }
 
+  const handleReportComment = useCallback((idComment) => {
+    dispatch({
+      type: 'UPDATE_MODAL_ACTION',
+      payload: 'REPORT_COMMENT',
+    })
+    dispatch({
+      type: 'UPDATE_ID_COMMENT',
+      payload: idComment,
+    })
+  }, [])
   return (
     <>
       {state.modalAction ? (
         <Modal onCancel={handleCancelModal} onOk={handleOkModal}>
           <div className={cx('modal')}>
-            <h1 className={cx('title')}>
+            {renderModalContent()}
+            {/* <h1 className={cx('title')}>
               {state.modalAction === 'REPORT_POST'
                 ? 'Báo cáo bài viết'
                 : 'Báo cáo bình luận'}
             </h1>
-            {renderModalContent()}
+            <p className={cx('modal-trick')}>
+              Lý do báo cáo<span>(20-100 ký tự)</span>:{' '}
+            </p>
+            <input
+              className={cx('imput-reason')}
+              spellCheck={false}
+              value={state.reason}
+              onChange={(e) =>
+                dispatch({
+                  type: 'UPDATE_REASON',
+                  payload: e.target.value,
+                })
+              }
+            /> */}
           </div>
         </Modal>
       ) : null}
@@ -371,6 +513,8 @@ function Post() {
             data={state.comments}
             onReply={handleReply}
             onLikeComment={handleLikeComment}
+            onReport={handleReportComment}
+            onDelete={handleDeleteComment}
           />
         </div>
         <Aside />

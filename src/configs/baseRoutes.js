@@ -10,6 +10,11 @@ const routers = {
   settingAccount: '/setting/account',
   managerUsers: '/setting/manager-users',
   managerPosts: '/setting/manager-posts',
+  trashPost: '/setting/post/trash',
+  editPost: '/post/edit/:id',
+  user: '/user/:id',
+  userRegister: 'user-register/:token',
+  search: '/search/:slug',
 }
 
 export default routers

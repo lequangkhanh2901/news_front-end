@@ -1,17 +1,12 @@
-import { faThumbsUp } from '@fortawesome/free-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import classNames from 'classnames/bind'
-import { memo, useEffect, useState } from 'react'
-import axiosCt from '../../../../configs/axiosCT'
-import Button from '../../../../components/Button'
-import { getTimeString } from '../../../../optionalFunction'
+import { memo } from 'react'
 
 import styles from './Comments.module.scss'
 import CommentItem from '../CommentItem'
 
 const cx = classNames.bind(styles)
 
-function Comments({ data, onReply, onLikeComment }) {
+function Comments({ data, onReply, onLikeComment, onReport, onDelete }) {
   return (
     <div className={cx('wrapper')}>
       <h3 className={cx('title')}>Bình luận</h3>
@@ -21,6 +16,8 @@ function Comments({ data, onReply, onLikeComment }) {
           comment={item}
           onReply={onReply}
           onLikeComment={onLikeComment}
+          onReport={onReport}
+          onDelete={onDelete}
         />
       ))}
     </div>

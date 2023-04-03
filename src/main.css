@@ -36,3 +36,15 @@ a {
 ::-webkit-scrollbar-thumb:hover {
   background: #888888;
 }
+input {
+  border: 1px solid transparent;
+  border-bottom-color: #aaa;
+  transition-duration: 0.3s;
+}
+input:hover {
+  border-bottom-color: var(--primary-color);
+}
+input:focus {
+  border-color: var(--primary-color);
+  border-radius: 5px;
+}
